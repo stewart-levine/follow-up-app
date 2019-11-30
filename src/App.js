@@ -32,13 +32,13 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showFollowUp: false
+            showFollowUp: false,
+            followUpRow: {}
         };
     };
 
-
     togglePopup(row) {
-        // alert('before togglePopup= ' + row)
+        alert('togglePopup before saving state, row data= ' + row)
         this.setState({
             showFollowUp: !this.state.showFollowUp,
             followUpRow: row
@@ -46,6 +46,16 @@ class App extends React.Component {
         // alert('after togglePopup= '  + this.state.showFollowUp)
     }
 
+    saveNote(note) {
+        const updatedRow = {...this.followUpRow, note}
+        alert('Save notification info and change followup status to: ' + updatedRow)
+
+    }
+
+    saveStatus(note) {
+        alert('Save notification status to: ' + note)
+
+    }
 
     render() {
         // alert('showFollowUp= ' + this.state.showFollowUp)
@@ -91,7 +101,10 @@ class App extends React.Component {
                 {this.state.showFollowUp ?
                     <FollowUp
                         data={this.state.followUpRow}
-                        closePopup={this.togglePopup.bind(this)} />
+                        closePopup={this.togglePopup.bind(this)}
+                        saveNote={this.saveNote.bind(this)}
+                        saveStatus={this.saveStatus.bind(this)}
+                    />
                     : null}
             </div>
         );

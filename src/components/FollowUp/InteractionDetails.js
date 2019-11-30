@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import classes from './InteractionDetails.css'
-import StatusSelect from "./StatusSelect/StatusSelect";
+import Notification from "./Notification/Notification";
 
 function handleChange() {
     alert('[handleChange] has been called')
@@ -10,7 +10,7 @@ function handleChange() {
 const interactionDetails = (props) => {
     return (
         <div className={classes.container}>
-            <StatusSelect />
+            <Notification />
             <TextField
                 required
                 classname={classes.textField}

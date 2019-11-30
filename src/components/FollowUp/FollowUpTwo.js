@@ -17,76 +17,94 @@ const columns = [
     { id: 'notes', label: 'Notes', minWidth: 300, type: TextField }
 ];
 
-const rows = [];
-
-const useStyles = makeStyles({
-    root: {
-        width: '100%',
+const useStyles = makeStyles(theme => ({
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
     },
-    tableWrapper: {
-        maxHeight: 440,
-        overflow: 'auto',
+    selectEmpty: {
+        marginTop: theme.spacing(2),
     },
-});
+}));
 
 export default function FollowUpTwo() {
     const classes = useStyles();
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [age, setAge] = React.useState('');
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+    const inputLabel = React.useRef(null);
+    const [labelWidth, setLabelWidth] = React.useState(0);
+    React.useEffect(() => {
+        setLabelWidth(inputLabel.current.offsetWidth);
+    }, []);
 
-    const handleChangeRowsPerPage = event => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
+    const handleChange = event => {
+        setAge(event.target.value);
     };
 
     return (
-        <Paper className={classes.root}>
-            <div className={classes.tableWrapper}>
-                <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            {columns.map(column => (
-                                <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth }}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                            return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                    {columns.map(column => {
-                                        const value = row[column.id];
-                                        return (
-                                            <TableCell key={column.id} align={column.align}>
-                                                {column.format && typeof value === 'number' ? column.format(value) : value}
-                                            </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </div>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-        </Paper>
+        <div>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={age}
+                    onChange={handleChange}
+                >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-helper-label">Age</InputLabel>
+                <Select
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={age}
+                    onChange={handleChange}
+                >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+                <FormHelperText>Some important helper text</FormHelperText>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+                <Select value={age} onChange={handleChange} displayEmpty className={classes.selectEmpty}>
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+                <FormHelperText>Without label</FormHelperText>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+                <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                    Age
+                </InputLabel>
+                <Select
+                    labelId="demo-simple-select-placeholder-label-label"
+                    id="demo-simple-select-placeholder-label"
+                    value={age}
+                    onChange={handleChange}
+                    displayEmpty
+                    className={classes.selectEmpty}
+                >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+                <FormHelperText>Label + placeholder</FormHelperText>
+            </FormControl>
+        </div>
     );
-};
+}

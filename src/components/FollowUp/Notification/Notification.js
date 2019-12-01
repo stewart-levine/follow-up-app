@@ -28,21 +28,38 @@ const useStyles = makeStyles(theme => ({
 export default function Notification(props) {
     const classes = useStyles();
     const [status, setStatus] = React.useState('');
+    const [author, setAuthor] = React.useState('');
+    const [note, setNote] = React.useState('');
 
-    let noteStatus;
-
-    // const inputLabel = React.useRef(null);
-    // const [labelWidth, setLabelWidth] = React.useState(0);
-    // React.useEffect doesn't compile
-    // React.useEffect(() => {
-    //     setLabelWidth(inputLabel.current.offsetWidth);
-    // }, []);
+    const saveNotification = () => {
+        const str = "Notification saveNotification fired with\n"
+                +   "\tstatus: " + status
+                +   "\tauthor: " + author
+                +   "\tnote: " + note;
+        alert(str);
+        props.notificationStatus(props.row[0], status);
+        // setNotification = {
+        //     status: newNotification.status,
+        //     timestamp: new Date(),
+        //     author: newNotification.author,
+        //     note: newNotification.note
+        // }
+    }
 
     const handleChange = event => {
-        // setStatus(event.target.value);
-        noteStatus=event.target.value;
-        event.target.selected=true;
-        alert('Notification state updated: ' + event.target.value)
+        switch(event.target.name) {
+            case('status'):
+                setStatus(event.target.value);
+                break;
+            case('author'):
+                setAuthor(event.target.value);
+                break;
+            case('note'):
+                setNote(event.target.value);
+                break;
+            default:
+        }
+        // alert('newNotification ' + event.target.name + ' updated: ' + event.target.value)
     };
 
     return (
@@ -52,7 +69,8 @@ export default function Notification(props) {
                 <Select
                     labelId="status-select-label"
                     id="status-select"
-                    value={noteStatus}
+                    name="status"
+                    value={status}
                     onChange={handleChange}
                 >
                     <MenuItem value={'green'}>Green</MenuItem>
@@ -68,7 +86,6 @@ export default function Notification(props) {
                     InputProps={{
                         readOnly: true
                     }}
-                    onChange={handleChange}
                 />
             </FormControl>
             <FormControl className={classes.formControl}>
@@ -76,23 +93,25 @@ export default function Notification(props) {
                     required
                     classname={classes.textField}
                     id="author"
+                    name="author"
                     label="Author"
-                    onChange={handleChange}
+                    onBlur={handleChange}
                 />
             </FormControl>
             <FormControl className={classes.formControl}>
                 <TextField
                     classname={classes.noteField}
                     required
-                    id="notes"
-                    label="Notes"
+                    id="note"
+                    name="note"
+                    label="Note"
                     onBlur={handleChange}
                 />
             </FormControl>
             <FormControl className={classes.formControl}>
                 <Button
                     className={"buttonStyle"}
-                    onClick={props.noteData('orange')}
+                    onClick={saveNotification.bind(this)}
                 >
                     Save
                 </Button>

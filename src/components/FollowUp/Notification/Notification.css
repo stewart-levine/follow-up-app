@@ -1,0 +1,19 @@
+.formControl {
+    /*margin: theme.spacing(1),*/
+    margin: 100px;
+    width: 120px;
+}
+
+.selectEmpty {
+    /*marginTop: theme.spacing(2),*/
+}
+
+.textField {
+    margin: 20px;
+    width: 150px;
+}
+
+.noteField {
+    margin: 20px;
+    width: 300px;
+}

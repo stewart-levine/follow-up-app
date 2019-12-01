@@ -1,48 +1,40 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './FollowUp.css';
 import Button from "@material-ui/core/Button";
 import Notification from "./Notification/Notification";
-export default class FollowUp extends Component {
 
-    constructor(props) {
-        super(props);
-        this.setState({
-            notification: {
-                status: '',
-                    timestamp: '',
-                author: '',
-                note: ''
-            }
-        });
-    };
+export default function Followup(props) {
 
-    notificationWrapper(status) {
-        this.props.saveStatus(status);
-    }
+    return (
+        <div className="popup">
+            <div className="popup_inner">
+                <p/>
+                <div className={"participantInfo"}>Name: {props.participantData[2]} {props.participantData[3]}</div>
+                <div className={"participantInfo"}>Email: {props.participantData[4]}</div>
+                <div className={"participantInfo"}>Phone: {props.participantData[5]}</div>
+                <div className={"vehicleInfo"}>Vehicle: {props.participantData[6]} {props.participantData[7]} {props.participantData[8]}</div>
 
-    render() {
-        return (
-            <div className="popup">
-                <div className="popup_inner">
-                    <div>{this.props.data[1]}</div>
-                    <Notification
-                        noteData={this.notificationWrapper.bind(this)}/>
-                    <Button
-                        className={"buttonStyle"}
-                        onClick={this.props.closePopup}
-                    >
-                        Close
-                    </Button>
-                    <Button
-                        className={"buttonStyle"}
-                        onClick={this.props.saveNote(this.props.data[0])}
-                    >
-                        Save
-                    </Button>
-                </div>
+                <Notification
+                    row={props.participantData}
+                    notificationStatus={props.updateStatus}
+                />
+
+                {/*<Button*/}
+                {/*    className={"buttonStyle"}*/}
+                {/*    onClick={this.props.updateStatus(this.props.participantData[1])}*/}
+                {/*>*/}
+                {/*    Save*/}
+                {/*</Button>*/}
+                <p className={"buttonStyle"}>
+                <Button
+                    onClick={props.closePopup}
+                >
+                    Close
+                </Button>
+                </p>
             </div>
-        );
-    }
+        </div>
+    );
 
 }
 

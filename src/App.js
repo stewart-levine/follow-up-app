@@ -41,7 +41,7 @@ class App extends React.Component {
     };
 
     togglePopup(row) {
-        alert('App togglePopup before saving state, row data= ' + row)
+        alert('App togglePopup before saving state, row data= ' + row);
         this.setState({
             showFollowUp: !this.state.showFollowUp,
             followUpRow: row
@@ -52,34 +52,19 @@ class App extends React.Component {
     updateNotificationStatus(rowId, notificationStatus) {
         alert('App updateNotificationStatus params--- \nrowId: ' + rowId + '\nstatus: ' + notificationStatus);
 
-        let index=-1;
-        this.setState(oldState => {
-            for(let i=0; i<oldState.data.length; i++) {
-                // alert('App looping oldState.data' + oldState.data[i]);
-                if(oldState.data[i][0]===rowId) {
-                    index = i;
-                }
-            }
-            alert('App updateNotificationStatus setState oldState.data length: ' + oldState.data.length);
-            alert('App updateNotificationStatus setState updated row index ' + index);
-            alert('App updateNotificationStatus setState oldState.data.status1 \n' + oldState.data[index][1]);
-            let newState = {...oldState};
-            let newData = newState.data.slice();
-            let newRow = newData[index];
-            alert('App updateNotificationStatus setState orig newData \n' + newData);
-            alert('App updateNotificationStatus setState orig newRow \n' + newRow);
-            newRow[1] = notificationStatus;
-            // alert('newRow after updating status: \n' + newRow);
-            newData[index] = newRow;
-            alert('App updateNotificationStatus setState updated newRow \n' + newRow);
-            alert('App updateNotificationStatus setState updated newData \n' + newData);
-            newState.data = newData;
-            // let rowCopy = Object.assign({}, oldState.data[index]);
-            // rowCopy.status = notificationStatus;
-            // newData[index] = rowCopy;
-            alert('App updateNotificationStatus setState oldState.data.status2 \n' + oldState.data[index][1]);
-            alert('App updateNotificationStatus setState newData updated row status: ' + newData[index][1]);
-            return newState
+        const updateRow = (row, status) => {
+            row[1] = status;
+            alert('setState updatedRow' + row[1] + '\n' + row);
+            return row;
+        };
+
+        this.setState({
+            data: this.state.data.filter((row) => {
+                alert('setState rowId ' + rowId + '\n' + row);
+                return (row[0] === rowId
+                    ? updateRow(row, notificationStatus)
+                    : row)
+            }),
         });
     }
 

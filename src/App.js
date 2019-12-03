@@ -41,35 +41,38 @@ class App extends React.Component {
     };
 
     togglePopup(row) {
-        alert('App togglePopup before saving state, row data= ' + row);
+        alert('App togglePopup before saving state, row data= ' + row[1] + '\n' + row);
         this.setState({
             showFollowUp: !this.state.showFollowUp,
             followUpRow: row
         });
-        // alert('after togglePopup= '  + this.state.showFollowUp)
     }
 
     updateNotificationStatus(rowId, notificationStatus) {
         alert('App updateNotificationStatus params--- \nrowId: ' + rowId + '\nstatus: ' + notificationStatus);
 
         const updateRow = (row, status) => {
+            // let newRow = [...row];
+            // newRow[1] = status;
+            // alert('setState updatedRow ' + newRow[1] + '\n' + newRow);
+            // return [...newRow];
             row[1] = status;
-            alert('setState updatedRow' + row[1] + '\n' + row);
+            alert('setState updatedRow ' + row[1] + '\n' + row);
             return row;
         };
 
-        this.setState({
-            data: this.state.data.filter((row) => {
+        this.setState(oldState => ({
+            data: oldState.data.filter((row) => {
                 alert('setState rowId ' + rowId + '\n' + row);
                 return (row[0] === rowId
                     ? updateRow(row, notificationStatus)
                     : row)
             }),
-        });
+        }));
+
     }
 
     render() {
-        // alert('showFollowUp= ' + this.state.showFollowUp)
         return (
             <div>
                 <Table aria-label="simple table">
